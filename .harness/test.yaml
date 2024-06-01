@@ -18,17 +18,17 @@ pipeline:
                   name: TerraformPlan_1
                   identifier: TerraformPlan_1
                   spec:
-                    provisionerIdentifier: aws
+                    provisionerIdentifier: main
                     configuration:
                       command: Apply
                       configFiles:
                         store:
                           spec:
                             connectorRef: connect_to_techwhisperin
-                            repoName: tfstate
+                            repoName: test
                             gitFetchType: Branch
-                            branch: tffiles
-                            folderPath: files
+                            branch: main
+                            folderPath: main.tf
                           type: Github
                       secretManagerRef: harnessSecretManager
                       skipRefreshCommand: false
