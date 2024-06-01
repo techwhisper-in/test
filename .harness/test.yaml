@@ -1,0 +1,36 @@
+pipeline:
+  name: test
+  identifier: test
+  projectIdentifier: myfirstproject
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: plan
+        identifier: plan
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: TerraformPlan
+                  name: TerraformPlan_1
+                  identifier: TerraformPlan_1
+                  spec:
+                    provisionerIdentifier: aws
+                    configuration:
+                      command: Apply
+                      configFiles:
+                        store:
+                          spec:
+                            connectorRef: connect_to_techwhisperin
+                            repoName: tfstate
+                            gitFetchType: Branch
+                            branch: tffiles
+                            folderPath: files
+                          type: Github
+                      secretManagerRef: harnessSecretManager
+                      skipRefreshCommand: false
+                  timeout: 10m
+        tags: {}
