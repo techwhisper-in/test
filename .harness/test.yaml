@@ -28,7 +28,7 @@ pipeline:
                             repoName: test
                             gitFetchType: Branch
                             branch: main
-                            folderPath: main.tf
+                            folderPath: harness
                           type: Github
                       secretManagerRef: harnessSecretManager
                       skipRefreshCommand: false
