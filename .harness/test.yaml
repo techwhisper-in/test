@@ -25,6 +25,16 @@ pipeline:
                           type: Inline
                           spec:
                             script: terraform init
+                          configFiles:
+                            store:
+                              spec:
+                                connectorRef: connect_to_techwhisperin
+                                repoName: test
+                                gitFetchType: Branch
+                                branch: main
+                                folderPath: harness
+                              type: Github
+                          secretManagerRef: harnessSecretManager
                         environmentVariables: []
                         outputVariables: []
                       timeout: 10m
