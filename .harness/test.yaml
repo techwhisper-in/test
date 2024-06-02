@@ -107,3 +107,4 @@ pipeline:
                             roleArn: ""
                   timeout: 10m
         tags: {}
+  allowStageExecutions: true
