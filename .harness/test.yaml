@@ -6,25 +6,46 @@ pipeline:
   tags: {}
   stages:
     - stage:
-        name: Init
-        identifier: init
+        name: plan
+        identifier: plan
         description: ""
         type: Custom
         spec:
           execution:
             steps:
-              - step:
-                  type: ShellScript
-                  name: ShellScript_1
-                  identifier: ShellScript_1
-                  spec:
-                    shell: Bash
-                    executionTarget: {}
-                    source:
-                      type: Inline
+              - parallel:
+                  - step:
+                      type: ShellScript
+                      name: ShellScript_1
+                      identifier: ShellScript_1
                       spec:
-                        script: terraform init
-                    environmentVariables: []
-                    outputVariables: []
-                  timeout: 10m
+                        shell: Bash
+                        executionTarget: {}
+                        source:
+                          type: Inline
+                          spec:
+                            script: terraform init
+                        environmentVariables: []
+                        outputVariables: []
+                      timeout: 10m
+                  - step:
+                      type: TerraformPlan
+                      name: TerraformPlan_1
+                      identifier: TerraformPlan_1
+                      spec:
+                        provisionerIdentifier: main
+                        configuration:
+                          command: Apply
+                          configFiles:
+                            store:
+                              spec:
+                                connectorRef: connect_to_techwhisperin
+                                repoName: test
+                                gitFetchType: Branch
+                                branch: main
+                                folderPath: harness
+                              type: Github
+                          secretManagerRef: harnessSecretManager
+                          skipRefreshCommand: false
+                      timeout: 10m
         tags: {}
