@@ -36,17 +36,6 @@ pipeline:
                           connectorRef: connectawsaccount
                           region: ap-south-1
                           roleArn: ""
-                      backendConfig:
-                        type: Remote
-                        spec:
-                          store:
-                            type: S3
-                            spec:
-                              connectorRef: connectawsaccount
-                              bucketName: techwhisper-ami-snapshot-ebs-volume-inventory
-                              region: ap-south-1
-                              paths:
-                                - harness/
                       secretManagerRef: harnessSecretManager
                   timeout: 10m
         tags: {}
