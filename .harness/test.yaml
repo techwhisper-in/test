@@ -13,49 +13,40 @@ pipeline:
         spec:
           execution:
             steps:
-              - parallel:
-                  - step:
-                      type: ShellScript
-                      name: ShellScript_1
-                      identifier: ShellScript_1
-                      spec:
-                        shell: Bash
-                        executionTarget: {}
-                        source:
-                          type: Inline
+              - step:
+                  type: TerraformPlan
+                  name: TerraformPlan_1
+                  identifier: TerraformPlan_1
+                  spec:
+                    provisionerIdentifier: main
+                    configuration:
+                      command: Apply
+                      configFiles:
+                        store:
                           spec:
-                            script: terraform init
-                          configFiles:
-                            store:
-                              spec:
-                                connectorRef: connect_to_techwhisperin
-                                repoName: test
-                                gitFetchType: Branch
-                                branch: main
-                                folderPath: harness
-                              type: Github
-                          secretManagerRef: harnessSecretManager
-                        environmentVariables: []
-                        outputVariables: []
-                      timeout: 10m
-                  - step:
-                      type: TerraformPlan
-                      name: TerraformPlan_1
-                      identifier: TerraformPlan_1
-                      spec:
-                        provisionerIdentifier: main
-                        configuration:
-                          command: Apply
-                          configFiles:
-                            store:
-                              spec:
-                                connectorRef: connect_to_techwhisperin
-                                repoName: test
-                                gitFetchType: Branch
-                                branch: main
-                                folderPath: harness
-                              type: Github
-                          secretManagerRef: harnessSecretManager
-                          skipRefreshCommand: false
-                      timeout: 10m
+                            connectorRef: connect_to_techwhisperin
+                            repoName: test
+                            gitFetchType: Branch
+                            branch: main
+                            folderPath: harness
+                          type: Github
+                      providerCredential:
+                        type: Aws
+                        spec:
+                          connectorRef: connectawsaccount
+                          region: ap-south-1
+                          roleArn: ""
+                      backendConfig:
+                        type: Remote
+                        spec:
+                          store:
+                            type: S3
+                            spec:
+                              connectorRef: connectawsaccount
+                              bucketName: techwhisper-ami-snapshot-ebs-volume-inventory
+                              region: ap-south-1
+                              paths:
+                                - harness/
+                      secretManagerRef: harnessSecretManager
+                  timeout: 10m
         tags: {}
