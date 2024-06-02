@@ -108,9 +108,3 @@ pipeline:
                   timeout: 10m
         tags: {}
   allowStageExecutions: true
-  variables:
-    - name: Name
-      type: String
-      description: ""
-      required: false
-      value: ankit
